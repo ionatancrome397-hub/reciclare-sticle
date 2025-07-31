@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Progres Reciclare</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #ecfdf5;
+      text-align: center;
+      padding: 20px;
+    }
+    button {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+    #chart {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>♻️ Progres Reciclare</h1>
+  <p>Total reciclate: <span id="total">0</span> / 4000</p>
+  <button onclick="adauga()">✅ Adaugă sticle reciclate</button>
+
+  <canvas id="chart" width="350" height="200"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let total = 0;
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Țintă', 'Reciclate'],
+        datasets: [{
+          label: 'Sticle',
+          data: [4000, total],
+          backgroundColor: ['#d1d5db', '#10b981']
+        }]
+      },
+      options: {
+        responsive: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 4000
+          }
+        }
+      }
+    });
+
+    function adauga() {
+      const cantitate = prompt("Câte sticle ai reciclat?");
+      const nr = parseInt(cantitate);
+      if (!isNaN(nr) && nr > 0) {
+        total += nr;
+        document.getElementById('total').textContent = total;
+        chart.data.datasets[0].data[1] = total;
+        chart.update();
+      } else {
+        alert("Te rog introdu un număr valid.");
+      }
+    }
+  </script>
+</body>
+</html>
